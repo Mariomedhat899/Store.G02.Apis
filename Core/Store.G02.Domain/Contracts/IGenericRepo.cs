@@ -20,7 +20,5 @@ namespace Store.G02.Domain.Contracts
         void Delete(TEntity entity);
 
 
-
-
     }
 }

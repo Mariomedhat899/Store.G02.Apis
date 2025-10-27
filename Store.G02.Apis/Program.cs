@@ -1,9 +1,12 @@
 
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Store.G02.Domain.Contracts;
 using Store.G02.Persistence;
 using Store.G02.Persistence.Data.Contexts;
+using Store.G02.Services;
+using Store.G02.Services.Abstractions;
 using Store.G02.Services.Mapping.Products;
 using System.Threading.Tasks;
 
@@ -17,7 +20,9 @@ namespace Store.G02.Apis
 
             builder.Services.AddScoped<IDBInitializer, DBInitalizer>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddAutoMapper(M => M.AddProfile(new ProductProfile()));
+            builder.Services.AddAutoMapper(M => M.AddProfile(new ProductProfile(builder.Configuration)));
+
+            builder.Services.AddScoped<IServiceManager, ServiceManager>();
 
 
             builder.Services.AddDbContext<StoreDBContext>(options =>
@@ -33,6 +38,8 @@ namespace Store.G02.Apis
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            app.UseStaticFiles();
 
             // Initialize the database Ask From CLR
             #region Using IServiceScope to create a scope To Initalize DB
