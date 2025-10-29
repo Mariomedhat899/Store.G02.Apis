@@ -2,6 +2,8 @@
 using Store.G02.Domain.Contracts;
 using Store.G02.Domain.Entity.Product;
 using Store.G02.Services.Abstractions.Product;
+using Store.G02.Services.Specifications;
+using Store.G02.Services.Specifications.Products;
 using Store.G02.Shared.Dtos.Product;
 using System;
 using System.Collections.Generic;
@@ -15,14 +17,25 @@ namespace Store.G02.Services.Products
     {
         public async Task<IEnumerable<ProductResponse>> GetAllProductsAsync()
         {
-          var Products =  await _Unit.GetRepo<int, Product>().GetAllAsync();
+            //var spec = new BaseSpecification<int, Product>(null);
+            //spec.Includes.Add(P => P.Type);
+            //spec.Includes.Add(P => P.Brand);
+            var spec = new ProductsWithBrandsAndTypesSpecification();
+
+
+          var Products =  await _Unit.GetRepo<int, Product>().GetAllAsync(spec);
             var Result = _mapper.Map<IEnumerable<ProductResponse>>(Products);
 
             return Result;
         }
         public async Task<ProductResponse> GetProductByIdAsync(int Id)
         {
-          var Product = await _Unit.GetRepo<int, Product>().GetAsync(Id);
+
+            var spec = new ProductsWithBrandsAndTypesSpecification(Id);
+
+
+
+            var Product = await _Unit.GetRepo<int, Product>().GetAsync(spec);
             var Result = _mapper.Map<ProductResponse>(Product);
 
             return Result;

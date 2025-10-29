@@ -13,6 +13,15 @@ namespace Store.G02.Persistence.Repos
 {
     public class GenericRepo<TKey, TEntity>(StoreDBContext _context) : IGenericRepo<TKey, TEntity> where TEntity : BaseEntity<TKey>
     {
+        public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TKey, TEntity> spec, bool ChangeTracker = false)
+        {
+          return await ApplySpecifications(spec).ToListAsync();
+        }
+
+        public Task<TEntity?> GetAsync(ISpecifications<TKey, TEntity> spec)
+        {
+           return ApplySpecifications(spec).FirstOrDefaultAsync();
+        }
         public async Task<IEnumerable<TEntity>> GetAllAsync(bool ChangeTracker = false)
         {
             if(typeof(TEntity) == typeof(Product))
@@ -51,7 +60,10 @@ namespace Store.G02.Persistence.Repos
             _context.Set<TEntity>().Remove(entity);
         }
 
-
+        private IQueryable<TEntity> ApplySpecifications(ISpecifications<TKey,TEntity> spec)
+        {
+            return SpecificationsEvaluator.GetQuery(_context.Set<TEntity>(), spec);
+        }
 
     }
 }
