@@ -15,14 +15,14 @@ namespace Store.G02.Services.Products
 {
     public class ProductService(IUnitOfWork _Unit, IMapper _mapper) : IProductService
     {
-        public async Task<IEnumerable<ProductResponse>> GetAllProductsAsync()
+        public async Task<IEnumerable<ProductResponse>> GetAllProductsAsync(int? BrandId, int? TypeId)
         {
             //var spec = new BaseSpecification<int, Product>(null);
             //spec.Includes.Add(P => P.Type);
             //spec.Includes.Add(P => P.Brand);
-            var spec = new ProductsWithBrandsAndTypesSpecification();
+            var spec = new ProductsWithBrandsAndTypesSpecification(BrandId,TypeId);
 
-
+            
           var Products =  await _Unit.GetRepo<int, Product>().GetAllAsync(spec);
             var Result = _mapper.Map<IEnumerable<ProductResponse>>(Products);
 
