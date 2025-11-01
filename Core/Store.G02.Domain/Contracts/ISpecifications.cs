@@ -12,5 +12,9 @@ namespace Store.G02.Domain.Contracts
     {
          List<Expression<Func<TENtity, object>>> Includes { get; set; }
          Expression<Func<TENtity,bool>>? Criteria { get; set; }
+
+        Expression<Func<TENtity,object>>? OrderBy { get; set; }
+        Expression<Func<TENtity, object>>? OrderByDescending { get; set; }
+
     }
 }

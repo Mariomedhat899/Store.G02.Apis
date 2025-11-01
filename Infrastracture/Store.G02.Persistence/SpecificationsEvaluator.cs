@@ -25,6 +25,14 @@ namespace Store.G02.Persistence
                 Query = Query.Where(spec.Criteria);  // _context.Products.Where()
             }
 
+            if (spec.OrderBy is not null) 
+            {
+                Query = Query.OrderBy(spec.OrderBy);
+            }else if(spec.OrderByDescending is not null)
+            {
+                Query = Query.OrderByDescending(spec.OrderByDescending);
+            }
+
             // _context.Products.Include(P => P.Type).Include(P => P.Brand )
             Query =  spec.Includes.Aggregate(Query, (Query, IncludeExpression) => Query.Include(IncludeExpression)); 
 
