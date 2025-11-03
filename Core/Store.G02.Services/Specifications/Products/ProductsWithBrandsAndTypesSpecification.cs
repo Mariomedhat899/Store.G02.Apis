@@ -18,13 +18,16 @@ namespace Store.G02.Services.Specifications.Products
 
         }
 
-        public ProductsWithBrandsAndTypesSpecification(int? BrandId, int? TypeId, string? Sort) : base
+        public ProductsWithBrandsAndTypesSpecification(int? BrandId, int? TypeId, string? Sort, string? search) : base
             (
             P =>
             (!BrandId.HasValue || P.BrandId == BrandId)
             &&
              (!TypeId.HasValue || P.TypeId == TypeId)
+            &&
+            ( string.IsNullOrEmpty(search) || P.Name.ToLower().Contains(search.ToLower()) )
             )
+            
         {
 
             ApplySorting(Sort);
