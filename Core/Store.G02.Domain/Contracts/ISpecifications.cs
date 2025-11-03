@@ -16,5 +16,11 @@ namespace Store.G02.Domain.Contracts
         Expression<Func<TENtity,object>>? OrderBy { get; set; }
         Expression<Func<TENtity, object>>? OrderByDescending { get; set; }
 
+         int Skip { get; set; }
+
+         int Take { get; set; }
+
+         bool IsPagination { get; set; }
+
     }
 }

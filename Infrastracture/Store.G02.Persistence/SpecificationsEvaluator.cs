@@ -33,6 +33,11 @@ namespace Store.G02.Persistence
                 Query = Query.OrderByDescending(spec.OrderByDescending);
             }
 
+            if (spec.IsPagination)
+            {
+                Query = Query.Skip(spec.Skip).Take(spec.Take);
+            }
+
             // _context.Products.Include(P => P.Type).Include(P => P.Brand )
             Query =  spec.Includes.Aggregate(Query, (Query, IncludeExpression) => Query.Include(IncludeExpression)); 
 

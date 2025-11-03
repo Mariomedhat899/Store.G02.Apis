@@ -18,7 +18,7 @@ namespace Store.G02.Services.Specifications.Products
 
         }
 
-        public ProductsWithBrandsAndTypesSpecification(int? BrandId, int? TypeId, string? Sort, string? search) : base
+        public ProductsWithBrandsAndTypesSpecification(int? BrandId, int? TypeId, string? Sort, string? search, int? PageIndex, int? PageSize) : base
             (
             P =>
             (!BrandId.HasValue || P.BrandId == BrandId)
@@ -30,6 +30,12 @@ namespace Store.G02.Services.Specifications.Products
             
         {
 
+            //PageIndex = 3
+            //PageSize = 5
+            //Skip = 2  *  5 = 10 (PageIndex - 1) * PageSize
+            //Take  = 5
+
+            ApplyPagination(PageSize.Value, PageIndex.Value);
             ApplySorting(Sort);
             ApplyIncludes();
 
