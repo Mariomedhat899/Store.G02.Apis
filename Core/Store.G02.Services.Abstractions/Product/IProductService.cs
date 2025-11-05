@@ -1,4 +1,5 @@
-﻿using Store.G02.Shared.Dtos.Product;
+﻿using Store.G02.Shared;
+using Store.G02.Shared.Dtos.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Store.G02.Services.Abstractions.Product
 {
     public interface IProductService
     {
-       Task<IEnumerable<ProductResponse>> GetAllProductsAsync(ProductParams parameters);
+       Task<PaginationResponse<ProductResponse>> GetAllProductsAsync(ProductParams parameters);
 
        Task<ProductResponse> GetProductByIdAsync(int Id);
 
