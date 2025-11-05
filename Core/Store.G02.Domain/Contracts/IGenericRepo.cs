@@ -15,6 +15,8 @@ namespace Store.G02.Domain.Contracts
 
         Task<TEntity?> GetAsync(TKey key);
         Task<TEntity?> GetAsync(ISpecifications<TKey,TEntity> spec);
+        Task<int> CountAsync(ISpecifications<TKey, TEntity> spec);
+
 
 
 
