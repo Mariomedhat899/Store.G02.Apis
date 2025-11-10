@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Store.G02.Domain.Contracts;
 using Store.G02.Domain.Entity.Product;
+using Store.G02.Domain.Exceptions;
 using Store.G02.Services.Abstractions.Product;
 using Store.G02.Services.Specifications;
 using Store.G02.Services.Specifications.Products;
@@ -39,6 +40,8 @@ namespace Store.G02.Services.Products
 
 
             var Product = await _Unit.GetRepo<int, Product>().GetAsync(spec);
+            if (Product is null) throw new ProductNotFoundExeption(Id);
+
             var Result = _mapper.Map<ProductResponse>(Product);
 
             return Result;

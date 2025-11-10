@@ -1,13 +1,18 @@
 
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Store.G02.Apis.ExtentionMethods;
+using Store.G02.Apis.MiddleWares;
 using Store.G02.Domain.Contracts;
 using Store.G02.Persistence;
 using Store.G02.Persistence.Data.Contexts;
 using Store.G02.Services;
 using Store.G02.Services.Abstractions;
 using Store.G02.Services.Mapping.Products;
+using Store.G02.Shared.ErrorModles;
 using System.Threading.Tasks;
 
 namespace Store.G02.Apis
@@ -18,51 +23,17 @@ namespace Store.G02.Apis
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddScoped<IDBInitializer, DBInitalizer>();
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddAutoMapper(M => M.AddProfile(new ProductProfile(builder.Configuration)));
+            builder.Services.AddInfrastractureServices(builder.Configuration);
+            
+            builder.Services.AddApplactionServices(builder.Configuration);
 
-            builder.Services.AddScoped<IServiceManager, ServiceManager>();
-
-
-            builder.Services.AddDbContext<StoreDBContext>(options =>
-            {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
-
-            // Add services to the container.
-
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddAllServices(builder.Configuration);
+           
+            
 
             var app = builder.Build();
 
-            app.UseStaticFiles();
-
-            // Initialize the database Ask From CLR
-            #region Using IServiceScope to create a scope To Initalize DB
-           using var scope =   app.Services.CreateScope();
-
-
-          var DBInitalizer =  scope.ServiceProvider.GetRequiredService<IDBInitializer>();
-            await DBInitalizer.InitalizeAsync();
-
-            #endregion
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseAuthorization();
-
-
-            app.MapControllers();
+           await app.ConfigureMiddleWaresAsync();
 
             app.Run();
         }

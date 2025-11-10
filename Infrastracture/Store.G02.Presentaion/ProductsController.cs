@@ -32,10 +32,7 @@ namespace Store.G02.Presentaion
         {
             if (Id is null) return BadRequest();
             var result = await _Service.ProductService.GetProductByIdAsync(Id.Value);
-            if (result is null)
-            {
-                return NotFound();
-            }
+            
 
             return Ok(result);
 
