@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Store.G02.Presentaion.Attr;
 
 namespace Store.G02.Presentaion
 {
@@ -22,9 +23,12 @@ namespace Store.G02.Presentaion
         [ProducesResponseType(StatusCodes.Status200OK,Type = typeof(PaginationResponse<ProductResponse>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorDetails))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorDetails))]
-
+        [CacheAttibute(120)]
         public async Task<ActionResult<PaginationResponse<ProductResponse>>> GetallProduts([FromQuery] ProductParams parameters)
         {
+
+
+
             var result = await _Service.ProductService.GetAllProductsAsync(parameters);
            
 

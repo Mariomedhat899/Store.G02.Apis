@@ -25,6 +25,8 @@ namespace Store.G02.Persistence
             services.AddScoped<IDBInitializer, DBInitalizer>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IBasketRepo, BasketRepo>();
+            services.AddScoped<ICacheRepo, CahceRepo>();
+
             services.AddSingleton<IConnectionMultiplexer>((serviceprovider) =>
             ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis"))
             );

@@ -1,10 +1,12 @@
 ﻿using Store.G02.Services.Abstractions.Baskets;
+using Store.G02.Services.Abstractions.Cahce;
 using Store.G02.Services.Abstractions.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace Store.G02.Services.Abstractions
 {
@@ -13,5 +15,10 @@ namespace Store.G02.Services.Abstractions
          IProductService ProductService { get; }
 
          IBasketService basketService { get; }
+
+        ICacheService CacheService { get; }
+
+        
+
     }
 }
