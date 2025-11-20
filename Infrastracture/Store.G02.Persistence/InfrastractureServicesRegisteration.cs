@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StackExchange.Redis;
 using Store.G02.Domain.Contracts;
 using Store.G02.Persistence.Data.Contexts;
+using Store.G02.Persistence.Identity.Contexts;
 using Store.G02.Persistence.Repos;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,10 @@ namespace Store.G02.Persistence
             services.AddDbContext<StoreDBContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            });
+            services.AddDbContext<IdentityStoreDBContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection"));
             });
 
             services.AddScoped<IDBInitializer, DBInitalizer>();
