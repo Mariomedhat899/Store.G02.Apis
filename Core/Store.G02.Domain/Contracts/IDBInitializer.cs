@@ -10,5 +10,8 @@ namespace Store.G02.Domain.Contracts
     {
 
         Task InitalizeAsync();
+
+
+        Task InitalizeIdentityAsync();
     }
 }

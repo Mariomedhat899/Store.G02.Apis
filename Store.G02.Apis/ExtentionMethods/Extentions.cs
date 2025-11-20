@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Store.G02.Apis.MiddleWares;
 using Store.G02.Domain.Contracts;
+using Store.G02.Domain.Entity.Identity;
 using Store.G02.Persistence;
+using Store.G02.Persistence.Identity.Contexts;
 using Store.G02.Services;
 using Store.G02.Shared.ErrorModles;
 
@@ -20,6 +23,7 @@ namespace Store.G02.Apis.ExtentionMethods
             services.AddApplactionServices(configuration);
 
             services.AddApiBehaviorOptions();
+            services.AddIdentityServices();
 
             return services;
         }
@@ -59,6 +63,18 @@ namespace Store.G02.Apis.ExtentionMethods
 
             return services;
         }
+
+        private static IServiceCollection AddIdentityServices(this IServiceCollection services)
+        {
+            services.AddIdentityCore<AppUser>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            }).AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<IdentityStoreDBContext>();
+
+            return services;
+        }
+
 
 
 
@@ -101,6 +117,7 @@ namespace Store.G02.Apis.ExtentionMethods
             var scope = app.Services.CreateScope();
             var DBInitalizer = scope.ServiceProvider.GetRequiredService<IDBInitializer>();
             await DBInitalizer.InitalizeAsync();
+            await DBInitalizer.InitalizeIdentityAsync();
 
             #endregion
             return app;
