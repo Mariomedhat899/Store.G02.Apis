@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Store.G02.Domain.Exceptions.BadRequest
 {
-    public class RegisterationBadRequestExeption(List<string> errors) : BadRequestExeption($"Registration failed due to the following errors: {string.Join(", ", errors)}")) 
+    public class RegisterationBadRequestExeption(List<string> errors) : BadRequestExeption($"Registration failed due to the following errors: {string.Join(", ", errors)}")
     {
     }
 }
