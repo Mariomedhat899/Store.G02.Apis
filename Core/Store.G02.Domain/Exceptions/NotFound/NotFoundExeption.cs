@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Store.G02.Domain.Exceptions
+namespace Store.G02.Domain.Exceptions.NotFound
 {
     public abstract class NotFoundExeption(string message) : Exception(message)
     {

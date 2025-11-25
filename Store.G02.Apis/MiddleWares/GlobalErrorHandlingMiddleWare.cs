@@ -1,5 +1,6 @@
-﻿using Store.G02.Domain.Exceptions;
-using Store.G02.Domain.Exceptions.BadRequest;
+﻿using Store.G02.Domain.Exceptions.BadRequest;
+using Store.G02.Domain.Exceptions.NotFound;
+using Store.G02.Domain.Exceptions.UnAuthorized;
 using Store.G02.Shared.ErrorModles;
 
 namespace Store.G02.Apis.MiddleWares
@@ -42,6 +43,7 @@ namespace Store.G02.Apis.MiddleWares
                 {
                     NotFoundExeption => StatusCodes.Status404NotFound,
                     BadRequestExeption => StatusCodes.Status400BadRequest,
+                    UnAuthorizedExeption => StatusCodes.Status401Unauthorized,
                     _ => StatusCodes.Status500InternalServerError,
 
 
