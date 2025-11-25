@@ -1,4 +1,5 @@
-﻿using Store.G02.Services.Abstractions.Baskets;
+﻿using Store.G02.Services.Abstractions.Auth;
+using Store.G02.Services.Abstractions.Baskets;
 using Store.G02.Services.Abstractions.Cahce;
 using Store.G02.Services.Abstractions.Product;
 using System;
@@ -17,6 +18,7 @@ namespace Store.G02.Services.Abstractions
          IBasketService basketService { get; }
 
         ICacheService CacheService { get; }
+        IAuthService AuthService { get; }
 
         
 

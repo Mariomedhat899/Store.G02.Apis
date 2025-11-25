@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Store.G02.Domain.Contracts;
+using Store.G02.Domain.Entity.Identity;
 using Store.G02.Services.Abstractions;
+using Store.G02.Services.Abstractions.Auth;
 using Store.G02.Services.Abstractions.Baskets;
 using Store.G02.Services.Abstractions.Cahce;
 using Store.G02.Services.Abstractions.Product;
+using Store.G02.Services.Auth;
 using Store.G02.Services.Baskets;
 using Store.G02.Services.Cache;
 using Store.G02.Services.Products;
@@ -19,6 +23,7 @@ namespace Store.G02.Services
         IUnitOfWork _Unit,
         IMapper _mapper,
         IBasketRepo _basketRepo,
+        UserManager<AppUser> _userManager ,
         ICacheRepo _CacheRepo
         ) : IServiceManager
     {
@@ -27,5 +32,7 @@ namespace Store.G02.Services
         public IBasketService basketService { get; } = new BasketService(_basketRepo, _mapper);
 
         public ICacheService CacheService { get; } = new CacheService(_CacheRepo);
+
+        public IAuthService AuthService { get; } = new Authservice(_userManager);
     }
 }
