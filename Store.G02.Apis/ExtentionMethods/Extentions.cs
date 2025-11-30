@@ -6,6 +6,7 @@ using Store.G02.Domain.Entity.Identity;
 using Store.G02.Persistence;
 using Store.G02.Persistence.Identity.Contexts;
 using Store.G02.Services;
+using Store.G02.Shared;
 using Store.G02.Shared.ErrorModles;
 
 
@@ -24,6 +25,8 @@ namespace Store.G02.Apis.ExtentionMethods
 
             services.AddApiBehaviorOptions();
             services.AddIdentityServices();
+
+            services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
 
             return services;
         }
