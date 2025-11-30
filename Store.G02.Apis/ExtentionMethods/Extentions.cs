@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Store.G02.Apis.MiddleWares;
 using Store.G02.Domain.Contracts;
 using Store.G02.Domain.Entity.Identity;
@@ -8,6 +9,7 @@ using Store.G02.Persistence.Identity.Contexts;
 using Store.G02.Services;
 using Store.G02.Shared;
 using Store.G02.Shared.ErrorModles;
+using System.Text;
 
 
 namespace Store.G02.Apis.ExtentionMethods
@@ -27,6 +29,38 @@ namespace Store.G02.Apis.ExtentionMethods
             services.AddIdentityServices();
 
             services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
+
+            services.AddAuthService(configuration);
+
+
+
+            return services;
+        }
+
+
+        private static IServiceCollection AddAuthService(this IServiceCollection services, IConfiguration configuration)
+        {
+
+            var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
+
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "Bearer";
+                options.DefaultChallengeScheme = "Bearer";
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = jwtOptions.Audience,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
+                };
+            });
 
             return services;
         }
