@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Store.G02.Presentaion.Attr;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Store.G02.Presentaion
 {
@@ -24,6 +25,7 @@ namespace Store.G02.Presentaion
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorDetails))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorDetails))]
         [CacheAttibute(120)]
+        [Authorize]
         public async Task<ActionResult<PaginationResponse<ProductResponse>>> GetallProduts([FromQuery] ProductParams parameters)
         {
 
